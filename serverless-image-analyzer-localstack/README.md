@@ -54,7 +54,7 @@ S3 results/ folder (JSON Output) DynamoDB Table (Metadata Storage)
 
 - Docker
 - LocalStack (AWS service simulation)
-- AWS CLI
+- AWS CLI(installed locally)
 - Python 3.12
 - Amazon S3 (Simulated)
 - AWS Lambda (Simulated)
@@ -101,51 +101,37 @@ Run LocalStack container:
 
 ```bash
 docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=s3,lambda,dynamodb -v /var/run/docker.sock:/var/run/docker.sock localstack/localstack
-
 LocalStack will run at:
 
 http://localhost:4566
-
-2️⃣ Configure AWS CLI Credentials (PowerShell)
-
-LocalStack accepts dummy credentials.
+2️⃣ Configure AWS CLI Credentials (Windows PowerShell)
+LocalStack accepts dummy credentials:
 
 $env:AWS_ACCESS_KEY_ID="test"
 $env:AWS_SECRET_ACCESS_KEY="test"
 $env:AWS_DEFAULT_REGION="us-east-1"
-
-
 Test connection:
 
 aws --endpoint-url=http://localhost:4566 s3 ls
-
 3️⃣ Create an S3 Bucket
 aws --endpoint-url=http://localhost:4566 s3 mb s3://image-analyzer-bucket
-
 4️⃣ Create a DynamoDB Table
 aws --endpoint-url=http://localhost:4566 dynamodb create-table `
   --table-name ImageAnalysisResults `
   --attribute-definitions AttributeName=image_id,AttributeType=S `
   --key-schema AttributeName=image_id,KeyType=HASH `
   --billing-mode PAY_PER_REQUEST
-
-
 Verify:
 
 aws --endpoint-url=http://localhost:4566 dynamodb list-tables
-
 🧠 Lambda Deployment
 5️⃣ Create Lambda ZIP Package (Windows PowerShell)
-
-Go to the lambda folder:
+Go to the Lambda folder:
 
 cd lambda_code
-
-
 Zip the Lambda file:
 
 Compress-Archive -Path lambda_function.py -DestinationPath function.zip -Force
-
 6️⃣ Create Lambda Function
 aws --endpoint-url=http://localhost:4566 lambda create-function `
   --function-name image-analyzer-lambda `
@@ -153,7 +139,6 @@ aws --endpoint-url=http://localhost:4566 lambda create-function `
   --handler lambda_function.lambda_handler `
   --role arn:aws:iam::000000000000:role/lambda-role `
   --zip-file fileb://function.zip
-
 7️⃣ Allow S3 to Invoke Lambda
 aws --endpoint-url=http://localhost:4566 lambda add-permission `
   --function-name image-analyzer-lambda `
@@ -161,11 +146,9 @@ aws --endpoint-url=http://localhost:4566 lambda add-permission `
   --action lambda:InvokeFunction `
   --principal s3.amazonaws.com `
   --source-arn arn:aws:s3:::image-analyzer-bucket
-
 🔔 Enable S3 Event Trigger
 8️⃣ Create Notification Configuration File
-
-Create notification.json inside your project folder:
+Create a file named notification.json inside your project folder:
 
 {
   "LambdaFunctionConfigurations": [
@@ -183,49 +166,34 @@ Create notification.json inside your project folder:
     }
   ]
 }
-
 9️⃣ Attach Notification Trigger to S3 Bucket
 aws --endpoint-url=http://localhost:4566 s3api put-bucket-notification-configuration `
   --bucket image-analyzer-bucket `
   --notification-configuration file://notification.json
-
-
 Verify trigger:
 
 aws --endpoint-url=http://localhost:4566 s3api get-bucket-notification-configuration --bucket image-analyzer-bucket
-
 📤 Upload Image to Trigger Lambda
 🔟 Upload an Image to uploads/
-
 Create a test image file:
 
 echo "test image" > testdynamo.jpg
-
-
 Upload to S3:
 
 aws --endpoint-url=http://localhost:4566 s3 cp testdynamo.jpg s3://image-analyzer-bucket/uploads/testdynamo.jpg
-
-
 This automatically triggers the Lambda function.
 
 ✅ Verification
 ✅ Check uploaded file in uploads/
 aws --endpoint-url=http://localhost:4566 s3 ls s3://image-analyzer-bucket/uploads/
-
 ✅ Check generated JSON output in results/
 aws --endpoint-url=http://localhost:4566 s3 ls s3://image-analyzer-bucket/results/
-
 ✅ Check DynamoDB table records
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name ImageAnalysisResults
-
 📄 Sample Output
-
 Example JSON output stored in:
 
 results/testdynamo.jpg.json
-
-
 Example content:
 
 {
@@ -239,7 +207,6 @@ Example content:
     { "Name": "Laptop", "Confidence": 90.1 }
   ]
 }
-
 📸 Screenshots
 S3 Upload Folder Proof
 
@@ -247,16 +214,27 @@ S3 Results Folder Proof
 
 DynamoDB Scan Output Proof
 
-📌 Notes
+(Add screenshots inside the screenshots/ folder and reference them here.)
 
+Example:
+
+![S3 Uploads](screenshots/s3-uploads.png)
+![S3 Results](screenshots/s3-results.png)
+![DynamoDB Scan](screenshots/dynamodb-scan.png)
+📌 Notes
 This project uses mock AI label detection because Amazon Rekognition is not fully supported in LocalStack Community Edition.
 
 The same workflow can be deployed to real AWS by replacing mock logic with actual Rekognition API calls.
 
 👩‍💻 Author
-
 Indhu Shree Prakash
 
 
 ---
+
+Now it will look **clean + professional + GitHub perfect** 😍✅
+
+If you want, I can also format the **top part** (title, intro, architecture section) into an even more premium README style with badges.
+
+
 
