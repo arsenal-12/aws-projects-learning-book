@@ -19,8 +19,8 @@ When an image file is uploaded into the `uploads/` folder in an S3 bucket (simul
 
 ✅ Local AWS simulation using **LocalStack Community Edition**  
 ✅ Docker-based environment (**portable, reproducible, easy to run**)  
-✅ Uploading an image triggers processing automatically (**event-driven workflow**)  
-✅ Lambda generates mock AI labels and metadata  
+✅ Uploading a file triggers processing automatically (**event-driven workflow**)  
+✅ Lambda generates mock labels and metadata  
 ✅ Output stored in:
 - **S3 `results/` folder** (JSON output)
 - **DynamoDB table** (metadata storage)
@@ -39,6 +39,7 @@ When an image file is uploaded into the `uploads/` folder in an S3 bucket (simul
 
 ### 📌 Architecture Flow Diagram
 
+```text
 User Upload (AWS CLI)
         |
         v
@@ -54,9 +55,6 @@ LocalStack Lambda Function
         |                            |
         v                            v
 S3 results/ folder (JSON Output)   DynamoDB Table (Metadata Storage)
----
----
-
 📷 Architecture image available in:
 architecture/architecture.png
 
@@ -103,93 +101,60 @@ Python 3.12+
 AWS CLI
 
 🚀 Setup and Execution
-```text
 1️⃣ Start LocalStack using Docker
-
 Run LocalStack container:
-```powershell
+
 docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 \
 -e SERVICES=s3,lambda,dynamodb \
 -v /var/run/docker.sock:/var/run/docker.sock \
 localstack/localstack
-
-
-
 LocalStack will run at:
-```powershell
+
 http://localhost:4566
-
 2️⃣ Configure AWS CLI Credentials (Windows PowerShell)
-
 LocalStack accepts dummy credentials:
 
-```powershell
-$env:AWS_ACCESS_KEY_ID="xxx"
-$env:AWS_SECRET_ACCESS_KEY="xxx"
-$env:AWS_DEFAULT_REGION="xxx"
-
-
+$env:AWS_ACCESS_KEY_ID="test"
+$env:AWS_SECRET_ACCESS_KEY="test"
+$env:AWS_DEFAULT_REGION="us-east-1"
 Test connection:
 
-```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls
-
 3️⃣ Create an S3 Bucket
-```powershell
 aws --endpoint-url=http://localhost:4566 s3 mb s3://image-analyzer-bucket
-
 4️⃣ Create a DynamoDB Table
-```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb create-table `
   --table-name ImageAnalysisResults `
   --attribute-definitions AttributeName=image_id,AttributeType=S `
   --key-schema AttributeName=image_id,KeyType=HASH `
   --billing-mode PAY_PER_REQUEST
-
-
 Verify table creation:
 
-```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb list-tables
-
 🧠 Lambda Deployment
-```powershell
 5️⃣ Create Lambda ZIP Package (Windows PowerShell)
-
 Navigate into Lambda folder:
-```powershell
+
 cd lambda_code
-
-
 Zip the Lambda function:
 
-```powershell
 Compress-Archive -Path lambda_function.py -DestinationPath function.zip -Force
-
 6️⃣ Create Lambda Function
-
-```powershell
 aws --endpoint-url=http://localhost:4566 lambda create-function `
   --function-name image-analyzer-lambda `
   --runtime python3.12 `
   --handler lambda_function.lambda_handler `
   --role arn:aws:iam::000000000000:role/lambda-role `
   --zip-file fileb://function.zip
-
 7️⃣ Allow S3 to Invoke Lambda
-
-```powershell
 aws --endpoint-url=http://localhost:4566 lambda add-permission `
   --function-name image-analyzer-lambda `
   --statement-id s3invoke1 `
   --action lambda:InvokeFunction `
   --principal s3.amazonaws.com `
   --source-arn arn:aws:s3:::image-analyzer-bucket
-
 🔔 Enable S3 Event Trigger
 8️⃣ Create Notification Configuration File
-
-```powershell
 Create a file named notification.json in the project root folder:
 
 {
@@ -208,60 +173,34 @@ Create a file named notification.json in the project root folder:
     }
   ]
 }
-
 9️⃣ Attach Notification Trigger to S3 Bucket
-
-```powershell
 aws --endpoint-url=http://localhost:4566 s3api put-bucket-notification-configuration `
   --bucket image-analyzer-bucket `
   --notification-configuration file://notification.json
-
-
 Verify trigger:
 
-```powershell
 aws --endpoint-url=http://localhost:4566 s3api get-bucket-notification-configuration --bucket image-analyzer-bucket
-
 📤 Upload Image to Trigger Lambda
 🔟 Upload an Image into uploads/
-
 Create a test image file:
 
-```powershell
 echo "test image" > testdynamo.jpg
-
-
 Upload to S3:
 
-```powershell
 aws --endpoint-url=http://localhost:4566 s3 cp testdynamo.jpg s3://image-analyzer-bucket/uploads/testdynamo.jpg
-
-
 This automatically triggers the Lambda function.
 
 ✅ Verification
 ✅ Check uploaded file in uploads/
-
-```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls s3://image-analyzer-bucket/uploads/
-
 ✅ Check generated JSON output in results/
-
-```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls s3://image-analyzer-bucket/results/
-
 ✅ Check DynamoDB table records
-
-```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name ImageAnalysisResults
-
 📄 Sample Output
-
 The JSON output will be stored in:
 
 results/testdynamo.jpg.json
-
-
 Example output:
 
 {
@@ -275,25 +214,24 @@ Example output:
     { "Name": "Laptop", "Confidence": 90.1 }
   ]
 }
-
 📸 Screenshots
-
 Proof of execution screenshots:
 
-📌S3 Upload Folder Proof
+📌 S3 Upload Folder Proof
+
 
 📌 S3 Results Folder Proof
 
+
 📌 DynamoDB Scan Output Proof
 
-📌 Notes
 
+📌 Notes
 ⚠️ This project uses mock AI label detection because Amazon Rekognition is not fully supported in LocalStack Community Edition.
 
 ✅ The same workflow can be deployed to real AWS by replacing the mock logic with AWS Rekognition API calls.
 
 👩‍💻 Author
-
 Indhu Shree Prakash
 📍 Master's Student | Cloud & Data Engineering Enthusiast
 🚀 Exploring AWS Serverless, DevOps & AI Workflows
