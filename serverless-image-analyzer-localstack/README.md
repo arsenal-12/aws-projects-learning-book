@@ -39,7 +39,6 @@ When an image file is uploaded into the `uploads/` folder in an S3 bucket (simul
 
 ### 📌 Architecture Flow Diagram
 
-```text
 User Upload (AWS CLI)
         |
         v
@@ -54,7 +53,8 @@ LocalStack Lambda Function
         +----------------------------+
         |                            |
         v                            v
-S3 results/ folder (JSON Output)   DynamoDB Table (Metadata Storage)'''
+S3 results/ folder (JSON Output)   DynamoDB Table (Metadata Storage)
+---
 ---
 
 📷 Architecture image available in:
@@ -103,37 +103,43 @@ Python 3.12+
 AWS CLI
 
 🚀 Setup and Execution
+```text
 1️⃣ Start LocalStack using Docker
 
 Run LocalStack container:
-
+```powershell
 docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 \
 -e SERVICES=s3,lambda,dynamodb \
 -v /var/run/docker.sock:/var/run/docker.sock \
 localstack/localstack
 
 
-LocalStack will run at:
 
+LocalStack will run at:
+```powershell
 http://localhost:4566
 
 2️⃣ Configure AWS CLI Credentials (Windows PowerShell)
 
 LocalStack accepts dummy credentials:
 
-$env:AWS_ACCESS_KEY_ID="test"
-$env:AWS_SECRET_ACCESS_KEY="test"
-$env:AWS_DEFAULT_REGION="us-east-1"
+```powershell
+$env:AWS_ACCESS_KEY_ID="xxx"
+$env:AWS_SECRET_ACCESS_KEY="xxx"
+$env:AWS_DEFAULT_REGION="xxx"
 
 
 Test connection:
 
+```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls
 
 3️⃣ Create an S3 Bucket
+```powershell
 aws --endpoint-url=http://localhost:4566 s3 mb s3://image-analyzer-bucket
 
 4️⃣ Create a DynamoDB Table
+```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb create-table `
   --table-name ImageAnalysisResults `
   --attribute-definitions AttributeName=image_id,AttributeType=S `
@@ -143,21 +149,26 @@ aws --endpoint-url=http://localhost:4566 dynamodb create-table `
 
 Verify table creation:
 
+```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb list-tables
 
 🧠 Lambda Deployment
+```powershell
 5️⃣ Create Lambda ZIP Package (Windows PowerShell)
 
 Navigate into Lambda folder:
-
+```powershell
 cd lambda_code
 
 
 Zip the Lambda function:
 
+```powershell
 Compress-Archive -Path lambda_function.py -DestinationPath function.zip -Force
 
 6️⃣ Create Lambda Function
+
+```powershell
 aws --endpoint-url=http://localhost:4566 lambda create-function `
   --function-name image-analyzer-lambda `
   --runtime python3.12 `
@@ -166,6 +177,8 @@ aws --endpoint-url=http://localhost:4566 lambda create-function `
   --zip-file fileb://function.zip
 
 7️⃣ Allow S3 to Invoke Lambda
+
+```powershell
 aws --endpoint-url=http://localhost:4566 lambda add-permission `
   --function-name image-analyzer-lambda `
   --statement-id s3invoke1 `
@@ -176,6 +189,7 @@ aws --endpoint-url=http://localhost:4566 lambda add-permission `
 🔔 Enable S3 Event Trigger
 8️⃣ Create Notification Configuration File
 
+```powershell
 Create a file named notification.json in the project root folder:
 
 {
@@ -196,6 +210,8 @@ Create a file named notification.json in the project root folder:
 }
 
 9️⃣ Attach Notification Trigger to S3 Bucket
+
+```powershell
 aws --endpoint-url=http://localhost:4566 s3api put-bucket-notification-configuration `
   --bucket image-analyzer-bucket `
   --notification-configuration file://notification.json
@@ -203,6 +219,7 @@ aws --endpoint-url=http://localhost:4566 s3api put-bucket-notification-configura
 
 Verify trigger:
 
+```powershell
 aws --endpoint-url=http://localhost:4566 s3api get-bucket-notification-configuration --bucket image-analyzer-bucket
 
 📤 Upload Image to Trigger Lambda
@@ -210,11 +227,13 @@ aws --endpoint-url=http://localhost:4566 s3api get-bucket-notification-configura
 
 Create a test image file:
 
+```powershell
 echo "test image" > testdynamo.jpg
 
 
 Upload to S3:
 
+```powershell
 aws --endpoint-url=http://localhost:4566 s3 cp testdynamo.jpg s3://image-analyzer-bucket/uploads/testdynamo.jpg
 
 
@@ -222,12 +241,18 @@ This automatically triggers the Lambda function.
 
 ✅ Verification
 ✅ Check uploaded file in uploads/
+
+```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls s3://image-analyzer-bucket/uploads/
 
 ✅ Check generated JSON output in results/
+
+```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls s3://image-analyzer-bucket/results/
 
 ✅ Check DynamoDB table records
+
+```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name ImageAnalysisResults
 
 📄 Sample Output
