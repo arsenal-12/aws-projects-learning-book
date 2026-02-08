@@ -371,10 +371,9 @@ Proof of execution screenshots:
 
 ## 👩‍💻 Author
 
-**Indhu Shree Prakash**
-📍 Master's Student | Cloud & Data Engineering Enthusiast
+**Indhu Shree Prakash**  
+📍 Master's Student | Cloud & Data Engineering Enthusiast  
 🚀 Exploring AWS Serverless, DevOps & AI Workflows
 
-````
 
 ---
