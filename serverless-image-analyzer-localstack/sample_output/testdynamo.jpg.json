@@ -1,0 +1,1 @@
+{"image_id": "uploads/testdynamo.jpg", "bucket": "image-analyzer-bucket", "uploaded_file": "uploads/testdynamo.jpg", "timestamp": "2026-02-07T19:55:12.169378", "labels": [{"Name": "Person", "Confidence": 98.5}, {"Name": "Car", "Confidence": 85.2}, {"Name": "Laptop", "Confidence": 90.1}]}
