@@ -67,7 +67,7 @@ career-copilot-bucket               CareerCopilotResults
 ```
 ---
 📷 Architecture image available in:
-`architecture/Architecture.png`
+`Career Copilot Genai/architecture/Architecture.png`
 
 ---
 
@@ -224,7 +224,7 @@ aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name CareerCopilo
 ### Sample Output
 
 Example JSON output stored in:
-results/<request_id>.json
+Career Copilot Genai/sample_output/response.json
 
 Example output:
 ```powershell
@@ -252,20 +252,19 @@ Proof of execution screenshots:
 
 ### 📌 S3 Bucket
 
-![S3 Bucket](screenshots/Bucket.png)
+![S3 Bucket](Career%20Copilot%20Genai/screenshots/Bucket.png)
 
 ### 📌 DynamoDB Table
 
-![DynamoDb](screenshots/Table.png)
+![DynamoDb](Career%20Copilot%20Genai/screenshots/Table.png)
 
 ### 📌 Swagger UI Resume in Text
 
-![S3 Results](screenshots/Swagger%20UI_Resume%20Text.png)
+![S3 Results](Career%20Copilot%20Genai/screenshots/Swagger%20UI_Resume%20Text.png)
 
 ### 📌 Swagger UI Resume in Docs
 
-![Swagger Docs](screenshots/Swagger%20UI_Resume%20doc.png)
-
+![Swagger Docs](Career%20Copilot%20Genai/screenshots/Swagger%20UI_Resume%20doc.png)
 
 ---
 
