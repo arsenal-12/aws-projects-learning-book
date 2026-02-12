@@ -72,15 +72,16 @@ career-copilot-bucket               CareerCopilotResults
 ---
 
 ## 🛠️ Technologies Used
-*Docker
-*LocalStack (AWS service simulation)
-*AWS CLI
-*Python 3.12+
-*FastAPI
-*Uvicorn
-*Ollama (Local LLM inference)
-*Amazon S3 (Simulated)
-*Amazon DynamoDB (Simulated)
+
+* Docker
+* LocalStack (AWS service simulation)
+* AWS CLI
+* Python 3.12+
+* FastAPI
+* Uvicorn
+* Ollama (Local LLM inference)
+* Amazon S3 (Simulated)
+* Amazon DynamoDB (Simulated)
 ---
 
 ## 📂 Project Structure
@@ -111,10 +112,10 @@ career-copilot-bucket               CareerCopilotResults
 
 ## ⚙️ Prerequisites
 Install the following tools before running the project:
-*Docker Desktop
-*Python 3.12+
-*AWS CLI
-*Ollama (Local LLM)
+* Docker Desktop
+* Python 3.12+
+* AWS CLI
+* Ollama (Local LLM)
 
 ---
 
