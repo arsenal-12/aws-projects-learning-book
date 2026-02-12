@@ -264,7 +264,7 @@ Proof of execution screenshots:
 
 ### 📌 Swagger UI Resume in Docs
 
-![Swagger Docs](screenshots/Swagger%20UI_Resume%20doc.png)
+![Swagger Docs](screenshots/Swagger_UI%20Resume%20doc.png)
 
 ---
 ## 📌 Notes
