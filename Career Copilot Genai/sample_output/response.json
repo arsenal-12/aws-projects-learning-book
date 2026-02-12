@@ -1,0 +1,6 @@
+{
+  "message": "Resume analysis completed successfully",
+  "request_id": "a44fb4a2-3d39-425c-9780-76f837652fcb",
+  "match_score": 85,
+  "s3_result_file": "results/a44fb4a2-3d39-425c-9780-76f837652fcb.json"
+}
