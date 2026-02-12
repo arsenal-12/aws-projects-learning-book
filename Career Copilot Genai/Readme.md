@@ -67,7 +67,7 @@ career-copilot-bucket               CareerCopilotResults
 ```
 ---
 📷 Architecture image available in:
-`Career%20Copilot%20Genai/architecture/Architecture.png`
+`architecture/Architecture.png`
 
 ---
 
@@ -252,19 +252,19 @@ Proof of execution screenshots:
 
 ### 📌 S3 Bucket
 
-![S3 Bucket](Career%20Copilot%20Genai/screenshots/Bucket.png)
+![S3 Bucket](screenshots/Bucket.png)
 
 ### 📌 DynamoDB Table
 
-![DynamoDb](Career%20Copilot%20Genai/screenshots/Table.png)
+![DynamoDb](screenshots/Table.png)
 
 ### 📌 Swagger UI Resume in Text
 
-![S3 Results](Career%20Copilot%20Genai/screenshots/Swagger%20UI_Resume%20Text.png)
+![S3 Results](screenshots/Swagger%20UI_Resume%20Text.png)
 
 ### 📌 Swagger UI Resume in Docs
 
-![Swagger Docs](Career%20Copilot%20Genai/screenshots/Swagger%20UI_Resume%20doc.png)
+![Swagger Docs](screenshots/Swagger%20UI_Resume%20doc.png)
 
 ---
 ## 📌 Notes
