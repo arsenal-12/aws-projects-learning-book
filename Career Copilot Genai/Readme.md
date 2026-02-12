@@ -67,7 +67,7 @@ career-copilot-bucket               CareerCopilotResults
 ```
 ---
 📷 Architecture image available in:
-`Career Copilot Genai/architecture/Architecture.png`
+`Career%20Copilot%20Genai/architecture/Architecture.png`
 
 ---
 
@@ -267,7 +267,6 @@ Proof of execution screenshots:
 ![Swagger Docs](Career%20Copilot%20Genai/screenshots/Swagger%20UI_Resume%20doc.png)
 
 ---
-
 ## 📌 Notes
 ⚠️ This project uses LocalStack Community Edition, so AWS services are simulated locally.
 
