@@ -15,7 +15,18 @@ When a user submits **resume text + job description**, the FastAPI backend sends
 💡 This project was built to gain hands-on experience with **GenAI + Cloud workflows** without requiring a paid AWS account.
 
 ---
+---
 
+## 📌 Background / Motivation
+
+This project is an extension of my earlier work on an **AI Resume Match Maker**, where I implemented resume-job matching using **embeddings, similarity scoring, and vector search pipelines (Qdrant + Streamlit)**.
+
+In this upgraded version, I focused on building a **Generative AI powered evaluation system** using a local LLM (Ollama) and cloud-style storage patterns using **LocalStack (S3 + DynamoDB)** to simulate a production-ready architecture.
+
+🔗 Previous Project Reference:  
+https://github.com/arsenal-12/AI_resume_match_maker
+
+---
 ## 🚀 Key Features
 
 ✅ Resume vs Job Description matching (ATS-style evaluation)  
