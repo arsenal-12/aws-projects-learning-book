@@ -135,17 +135,17 @@ $env:AWS_SECRET_ACCESS_KEY="test"
 $env:AWS_DEFAULT_REGION="us-east-1"
 ```
 
-###3️⃣ Test LocalStack Connection
+### 3️⃣ Test LocalStack Connection
 ```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls
 ```
 
-###4️⃣ Create an S3 Bucket
+### 4️⃣ Create an S3 Bucket
 ```powershell
 aws --endpoint-url=http://localhost:4566 s3 mb s3://career-copilot-bucket
 ```
 
-###5️⃣ Create a DynamoDB Table
+### 5️⃣ Create a DynamoDB Table
 ```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb create-table `
   --table-name CareerCopilotResults `
@@ -154,44 +154,44 @@ aws --endpoint-url=http://localhost:4566 dynamodb create-table `
   --billing-mode PAY_PER_REQUEST
 ```
 
-###6️⃣ Verify DynamoDB Table Creation
+### 6️⃣ Verify DynamoDB Table Creation
 ```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb list-tables
 ```
 
-##🤖 Ollama Setup (Local GenAI Model)
+## 🤖 Ollama Setup (Local GenAI Model)
 ```powershell
-###7️⃣ Install Ollama
+### 7️⃣ Install Ollama
 Download Ollama from: https://ollama.com/
 ```
 
-###8️⃣ Download Llama3 Model
+### 8️⃣ Download Llama3 Model
 ```powershell
 ollama pull llama3
 ```
 
-###9️⃣ (Optional) Download a Smaller Model (Phi3 Mini)
+### 9️⃣ (Optional) Download a Smaller Model (Phi3 Mini)
 ```powershell
 ollama pull phi3:mini
 ```
 
-###🔟 Verify Installed Ollama Models
+### 🔟 Verify Installed Ollama Models
 ```powershell
 ollama list
 ```
 
-##🧠 FastAPI Backend Setup
+## 🧠 FastAPI Backend Setup
 ```powershell
 ###1️⃣ Navigate into Backend Folder
 cd backend
 ```
 
-###2️⃣ Install Python Dependencies
+### 2️⃣ Install Python Dependencies
 ```powershell
 pip install -r requirements.txt
 ```
 
-###3️⃣ Run FastAPI Server
+### 3️⃣ Run FastAPI Server
 ```powershell
 uvicorn app:app --reload
 ```
@@ -202,7 +202,7 @@ uvicorn app:app --reload
 http://127.0.0.1:8000/docs
 ```
 
-###5️⃣ Test Endpoint (POST /match)
+### 5️⃣ Test Endpoint (POST /match)
 ```powershell
 {
   "resume_text": "I have experience in Python, AWS, FastAPI, and DynamoDB.",
@@ -211,12 +211,12 @@ http://127.0.0.1:8000/docs
 ```
 
 📤 Output Storage
-###6️⃣ View Stored Results in S3
+### 6️⃣ View Stored Results in S3
 ```powershell
 aws --endpoint-url=http://localhost:4566 s3 ls s3://career-copilot-bucket/results/
 ```
 
-###7️⃣ View Stored Records in DynamoDB
+### 7️⃣ View Stored Records in DynamoDB
 ```powershell
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name CareerCopilotResults
 ```
@@ -260,11 +260,12 @@ Proof of execution screenshots:
 
 ### 📌 Swagger UI Resume in Text
 
-![S3 Results](screenshots/Swagger UI_Resume Text.png)
+![S3 Results](screenshots/Swagger%20UI_Resume%20Text.png)
 
-### 📌 Swagger UI Resume in docs
+### 📌 Swagger UI Resume in Docs
 
-![DynamoDB Scan](screenshots/Swagger UI_Resume doc.png)
+![Swagger Docs](screenshots/Swagger%20UI_Resume%20doc.png)
+
 
 ---
 
